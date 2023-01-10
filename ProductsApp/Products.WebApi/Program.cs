@@ -1,3 +1,6 @@
+using DataAccess;
+using Microsoft.EntityFrameworkCore;
+
 namespace Products.WebApi
 {
     public class Program
@@ -12,6 +15,16 @@ namespace Products.WebApi
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddRouting(opts =>
+            {
+                opts.LowercaseUrls = true;
+            });
+
+            builder.Services.AddDbContext<AppDbContext>(opts =>
+            {
+                opts.UseNpgsql(builder.Configuration.GetConnectionString("productsapp"));
+            });
 
             var app = builder.Build();
 
