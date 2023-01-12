@@ -1,5 +1,6 @@
 using DataAccess;
 using Microsoft.EntityFrameworkCore;
+using Products.WebApi.Services;
 
 namespace Products.WebApi
 {
@@ -24,7 +25,14 @@ namespace Products.WebApi
             builder.Services.AddDbContext<AppDbContext>(opts =>
             {
                 opts.UseNpgsql(builder.Configuration.GetConnectionString("productsapp"));
+                // opts.LogTo(Console.Write);
             });
+
+            builder.Services.AddAutoMapper(cfg => cfg.AddMaps(new[] { typeof(Program) }));
+
+            builder.Services.AddTransient<ProductsService>();
+            builder.Services.AddTransient<CategoriesService>();
+            builder.Services.AddTransient<ManufacturersService>();
 
             var app = builder.Build();
 
