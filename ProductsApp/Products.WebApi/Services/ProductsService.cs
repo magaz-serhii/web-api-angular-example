@@ -4,6 +4,7 @@ using DataAccess;
 using Domain;
 using Microsoft.EntityFrameworkCore;
 using Products.WebApi.DTO.Products;
+using Products.WebApi.Exceptions;
 using Products.WebApi.Models.Products;
 
 namespace Products.WebApi.Services
@@ -34,6 +35,11 @@ namespace Products.WebApi.Services
                 .AsNoTracking()
                 .ProjectTo<ProductDto>(this._mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync(x => x.Id == id);
+            if (product == null)
+            {
+                throw new EntityNotFoundException($"Product {id} not found.");
+            }
+
             return product;
         }
 

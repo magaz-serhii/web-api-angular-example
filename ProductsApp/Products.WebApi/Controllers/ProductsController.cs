@@ -26,11 +26,6 @@ namespace Products.WebApi.Controllers
         public async Task<IActionResult> GetProduct(long id)
         {
             var result = await this._productsService.GetProductByIdAsync(id);
-            if (result == null)
-            {
-                return NotFound($"Product {id} not found.");
-            }
-
             return Ok(result);
         }
 

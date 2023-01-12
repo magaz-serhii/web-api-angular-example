@@ -1,5 +1,6 @@
 using DataAccess;
 using Microsoft.EntityFrameworkCore;
+using Products.WebApi.Middlewares;
 using Products.WebApi.Services;
 
 namespace Products.WebApi
@@ -33,6 +34,7 @@ namespace Products.WebApi
             builder.Services.AddTransient<ProductsService>();
             builder.Services.AddTransient<CategoriesService>();
             builder.Services.AddTransient<ManufacturersService>();
+            builder.Services.AddTransient<GlobalExceptionHandlingMiddleware>();
 
             var app = builder.Build();
 
@@ -44,6 +46,8 @@ namespace Products.WebApi
             }
 
             app.UseAuthorization();
+
+            app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
 
             app.MapControllers();
 
