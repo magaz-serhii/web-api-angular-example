@@ -1,4 +1,5 @@
 using DataAccess;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Products.WebApi.Middlewares;
 using Products.WebApi.Services;
@@ -30,6 +31,8 @@ namespace Products.WebApi
             });
 
             builder.Services.AddAutoMapper(cfg => cfg.AddMaps(new[] { typeof(Program) }));
+
+            builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 
             builder.Services.AddTransient<ProductsService>();
             builder.Services.AddTransient<CategoriesService>();

@@ -1,4 +1,5 @@
-﻿using Products.WebApi.Exceptions;
+﻿using FluentValidation;
+using Products.WebApi.Exceptions;
 using Products.WebApi.Models;
 using System.Net;
 using System.Text.Json;
@@ -20,6 +21,10 @@ namespace Products.WebApi.Middlewares
             catch(EntityNotFoundException e)
             {
                 await WriteResponseAsync(context, HttpStatusCode.NotFound, e);
+            }
+            catch(ValidationException e)
+            {
+                await WriteResponseAsync(context, HttpStatusCode.BadRequest, e);
             }
             catch (Exception e)
             {
